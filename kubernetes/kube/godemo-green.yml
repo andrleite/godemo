@@ -1,0 +1,20 @@
+apiVersion:	extensions/v1beta1
+kind: Deployment
+metadata:
+  name: godemo-green
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: godemo
+        env: production
+        color: green
+    spec:
+      containers:
+      - name: godemo
+        image: andrleite/godemo:v1.1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+      terminationGracePeriodSeconds: 5

@@ -1,0 +1,21 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: godemo-canary
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: godemo
+        env: production
+        type: canary
+        color: blue
+    spec:
+      containers:
+      - name: godemo
+        image: andrleite/godemo:v1.1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+      terminationGracePeriodSeconds: 5
