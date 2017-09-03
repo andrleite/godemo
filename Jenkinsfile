@@ -2,9 +2,9 @@
 pipeline {
   agent {
     kubernetes {
-      label 'mypod'
+      label 'golang-build'
       containerTemplate {
-        name 'test'
+        name 'build'
         image 'golang:1.9.0-alpine3.6'
         ttyEnabled true
         command 'cat'
@@ -12,10 +12,10 @@ pipeline {
     }
   }
   stages {
-    stage('Run Test') {
+    stage('Run Build') {
       steps {
-        container('test') {
-          sh 'echo TEST'
+        container('build') {
+          sh 'CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .'
         }
       }
     }
