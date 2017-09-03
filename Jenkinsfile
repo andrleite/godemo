@@ -16,7 +16,7 @@ pipeline {
       steps {
         container('build') {
           sh 'CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .'
-          sh 'docker build -t andrleite/godemo:v1.0 .'
+          sh 'cat /var/run/secrets/kubernetes.io/serviceaccount/token'
         }
       }
     }
