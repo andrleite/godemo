@@ -2,7 +2,7 @@
 pipeline {
   agent none
   stages {
-    stage('Run Build') {
+    stage('Build') {
       agent {
         kubernetes {
           label 'golang-build'
@@ -20,7 +20,7 @@ pipeline {
         }
       }
     }
-    stage {
+    stage('Deploy') {
       agent {
         kubernetes {
           label 'alpine-deploy'
