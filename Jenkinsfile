@@ -34,7 +34,7 @@ pipeline {
       }
       steps {
         container('deploy') {
-          sh 'TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token) && curl https://api.k8s-service.cloud104.io/api --header \"Authorization: Bearer \$TOKEN\" --insecure'
+          sh 'TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token) && curl https://api.k8s-service.cloud104.io/api/v1/namespaces/jenkins/pods --header \"Authorization: Bearer \$TOKEN\" --insecure'
         }
       }
     }
