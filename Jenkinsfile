@@ -1,9 +1,10 @@
+
 pipeline {
   agent {
     kubernetes {
-      label 'test-pod'
+      label 'mypod'
       containerTemplate {
-        name 'test-pod'
+        name 'test'
         image 'scratch'
         ttyEnabled true
         command 'cat'
@@ -11,9 +12,9 @@ pipeline {
     }
   }
   stages {
-    stage('Test') {
+    stage('Run Test') {
       steps {
-        container('test-pod') {
+        container('test') {
           sh 'echo TEST'
         }
       }
