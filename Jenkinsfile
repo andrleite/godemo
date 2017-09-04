@@ -3,17 +3,19 @@ pipeline {
     kubernetes {
       label 'build'
       serviceAccount 'jenkins'
-      volumes{
-        hostPathVolume {
-          hostPath 'var/run/docker.sock'
-          mountPath '/var/run/docker.sock'
+      podTemplate {
+        volumes{
+          hostPathVolume {
+            hostPath 'var/run/docker.sock' 
+            mountPath '/var/run/docker.sock'
+          }
+        } 
+        containerTemplate {
+        name 'build'
+        image 'andrleite/demobuild'
+        ttyEnabled true
+        command 'cat'
         }
-      }
-      containerTemplate {
-      name 'build'
-      image 'andrleite/demobuild'
-      ttyEnabled true
-      command 'cat'
       }
     }
   }
