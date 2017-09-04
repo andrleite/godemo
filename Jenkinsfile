@@ -3,22 +3,20 @@ pipeline {
     kubernetes {
       label 'build'
       serviceAccount 'jenkins'
-      podTemplate {
-        volumes{
-          hostPathVolume {
-            hostPath 'var/run/docker.sock' 
-            mountPath '/var/run/docker.sock'
-          }
-        } 
-        containerTemplate {
+      containerTemplate {
         name 'build'
         image 'andrleite/demobuild'
         ttyEnabled true
         command 'cat'
+        volumes{
+          hostPathVolume {
+            hostPath 'var/run/docker.sock' 
+            mountPath '/var/run/docker.sock'
+            }
+          } 
         }
       }
     }
-  }
   stages {
     stage('Build') {
       steps {
