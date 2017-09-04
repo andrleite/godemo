@@ -1,40 +1,28 @@
-
 pipeline {
-  agent none
-  stages {
-    stage('Build') {
-      agent {
-        kubernetes {
-          label 'golang-build'
-          containerTemplate {
-          name 'build'
-          image 'golang:1.9.0-alpine3.6'
-          ttyEnabled true
-          command 'cat'
-        }
+  agent {
+    kubernetes {
+      label 'build'
+      serviceAccount 'jenkins'
+      containerTemplate {
+      name 'build'
+      image 'andrleite/demobuild'
+      ttyEnabled true
+      command 'cat'
       }
     }
+  }
+  stages {
+    stage('Build') {
       steps {
         container('build') {
-          sh 'CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .'
+          sh 'docker build -t andrleite/godemo:\"${VERSION}\"" .'
         }
       }
     }
     stage('Deploy') {
-      agent {
-        kubernetes {
-          label 'alpine-deploy'
-          containerTemplate {
-            name 'deploy'
-            image 'byrnedo/alpine-curl'
-            ttyEnabled true
-            command 'cat'
-          }
-        }
-      }
       steps {
         container('deploy') {
-          sh 'TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token) && curl https://api.k8s-service.cloud104.io/api/v1/namespaces/jenkins/pods --header \"Authorization: Bearer \$TOKEN\" --insecure'
+          echo 'TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token) && kubectl --token \"${TOKEN}\"" set image deployment/godemo godemo=andrleite/godemo:\"${VERSION}\""'
         }
       }
     }
