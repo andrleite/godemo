@@ -15,7 +15,7 @@ pipeline {
     stage('Build') {
       steps {
         container('build') {
-          sh 'docker build -t andrleite/godemo:\"${VERSION}\" .'
+          sh "docker build -t andrleite/godemo:$VERSION ."
         }
       }
     }
