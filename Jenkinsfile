@@ -1,29 +1,12 @@
-pipeline {
-  agent {
-    kubernetes {
-      label 'build'
-      serviceAccount 'jenkins'
-      containerTemplate {
-        name 'build'
-        image 'andrleite/demobuild'
-        ttyEnabled true
-        command 'cat'
-        }
-      }
-    }
-  stages {
+podTemplate(label: 'docker', serviceAccount: 'jenkins', containers: [
+  containerTemplate(name: 'docker', image: 'andrleite/demobuild', ttyEnabled: true, command: 'cat')
+], volumes: [hostPahVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock')]
+) {
+
+  node('docker') {
     stage('Build') {
-      steps {
-        container('build') {
-          sh "docker build -t andrleite/godemo:$VERSION ."
-        }
-      }
-    }
-    stage('Deploy') {
-      steps {
-        container('deploy') {
-          echo 'TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token) && kubectl --token \"${TOKEN}\" set image deployment/godemo godemo=andrleite/godemo:\"${VERSION}\"'
-        }
+      container('docker') {
+        sh "docker build -t andrleite/godemo:$VERSION ."
       }
     }
   }
