@@ -1,8 +1,10 @@
 #!/usr/bin/env groovy
 podTemplate(label: 'docker', serviceAccount: 'jenkins', containers: [
   containerTemplate(name: 'docker', image: 'andrleite/demobuild', ttyEnabled: true, command: 'cat')],
-  volumes: [hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock')]
-) {
+  volumes: [
+    hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock'),
+    hostPathVolume(hostPath: '/root/.docker/config.json', mountPath: '/home/jenkins/.docker/config.json')
+  ]) {
 
   node('docker') {
     stage('Build') {
