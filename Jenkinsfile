@@ -10,7 +10,7 @@ podTemplate(label: 'docker', serviceAccount: 'jenkins', containers: [
       container('docker') {
         sh "docker build -t andrleite/godemo:$VERSION ."
         sh "docker login -u $REGISTRY_USER -p $REGISTRY_PASS"
-        sh "docker push -t andrleite/godemo:$VERSION"
+        sh "docker push andrleite/godemo:$VERSION"
       }
     }
   }
