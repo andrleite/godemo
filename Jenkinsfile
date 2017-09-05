@@ -6,6 +6,7 @@ podTemplate(label: 'docker', serviceAccount: 'jenkins', containers: [
 
   node('docker') {
     stage('Build') {
+      git 'https://github.com/andrleite/k8s-godemo.git'
       container('docker') {
         sh "docker build -t andrleite/godemo:$VERSION ."
       }
