@@ -8,13 +8,13 @@ pipeline {
         image 'andrleite/demobuild'
         ttyEnabled true
         command 'cat'
-        args '-v /var/run/docker.sock:/var/run/docker.sock'
-        // volumes{
-        //   hostPathVolume {
-        //     hostPath '/var/run/docker.sock' 
-        //     mountPath '/var/run/docker.sock'
-        //     }
-        //   }
+        args '-u root'
+        volumes{
+          hostPathVolume {
+            hostPath '/var/run/docker.sock' 
+            mountPath '/var/run/docker.sock'
+            }
+          }
         }
       }
     }
