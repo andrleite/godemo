@@ -9,6 +9,8 @@ podTemplate(label: 'docker', serviceAccount: 'jenkins', containers: [
       git 'https://github.com/andrleite/k8s-godemo.git'
       container('docker') {
         sh "docker build -t andrleite/godemo:$VERSION ."
+        sh "docker login -u $REGISTRY_USER -p $REGISTRY_PASS"
+        sh "docker push -t andrleite/godemo:$VERSION"
       }
     }
   }
