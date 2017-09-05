@@ -8,8 +8,8 @@ podTemplate(label: 'docker', serviceAccount: 'jenkins', containers: [
     stage('Build') {
       git 'https://github.com/andrleite/k8s-godemo.git'
       container('docker') {
-        sh "docker build -t containars.lab.cloud104.io/godemo:$VERSION ."
-        sh "docker push containars.lab.cloud104.io/godemo:$VERSION"
+        sh "docker build -t containers.lab.cloud104.io/godemo:$VERSION ."
+        sh "docker push containers.lab.cloud104.io/godemo:$VERSION"
       }
     }
   }
