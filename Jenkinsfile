@@ -21,7 +21,7 @@ podTemplate(label: 'docker', serviceAccount: 'jenkins', containers: [
       container('docker') {
         sh "kops export kubecfg --name=k8s-service.cloud104.io --state=\"s3://kops-k8s-service-state\""
         sh 'kubectl set image deployment/godemo godemo=containers.lab.cloud104.io/godemo:\"${VERSION}\"'
-        sh 'kubectl apply -f kubernetes/kube/initial-deployments.yml'
+        sh 'kubectl apply -f kubernetes/kube/'
       }
     }
   }
