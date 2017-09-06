@@ -12,9 +12,11 @@ spec:
         color: blue
     spec:
       containers:
-      - name: godemo
-        image: containers.lab.cloud104.io/godemo:v1.0
-        imagePullPolicy: Always
+        - name: godemo
+          image: containers.lab.cloud104.io/godemo:v1.0
+          imagePullPolicy: Always
+      imagePullSecrets:
+        - name: nexus-registry
         ports:
         - containerPort: 8080
       terminationGracePeriodSeconds: 5
