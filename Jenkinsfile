@@ -3,7 +3,7 @@ podTemplate(label: 'docker', serviceAccount: 'jenkins', containers: [
   containerTemplate(name: 'docker', image: 'andrleite/k8s-builder', ttyEnabled: true, command: 'cat')],
   volumes: [
     hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock'),
-    secretVolume(secretName: 'nexus-registry', mountPath: '/home/jenkins/.docker/config.json')
+    secretVolume(secretName: 'nexus-registry', mountPath: '/home/jenkins/.docker/')
   ]) {
 
   node('docker') {
