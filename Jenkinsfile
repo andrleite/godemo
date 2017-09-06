@@ -3,14 +3,14 @@ podTemplate(label: 'docker', serviceAccount: 'jenkins', containers: [
   containerTemplate(name: 'docker', image: 'andrleite/k8s-builder', ttyEnabled: true, command: 'cat')],
   volumes: [
     hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock'),
-    secretVolume(secretName: 'nexus-registry', mountPath: '/home/jenkins/.docker/')
+    secretVolume(secretName: 'nexus-registry', mountPath: '/tmp/')
   ]) {
 
   node('docker') {
     stage('Build') {
       git 'https://github.com/andrleite/k8s-godemo.git'
       container('docker') {
-        sh "cp /home/jenkins/.docker/.dockercfg /home/jenkins/.docker/config.json"
+        sh "cp /tmp/.dockercfg /home/jenkins/.docker/config.json"
         sh "cat /home/jenkins/.docker/config.json"
         sh "docker build -t containers.lab.cloud104.io/godemo:$VERSION ."
         sh "docker push containers.lab.cloud104.io/godemo:$VERSION"
