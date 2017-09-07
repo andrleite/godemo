@@ -10,8 +10,6 @@ podTemplate(label: 'docker', serviceAccount: 'jenkins', containers: [
     stage('Build') {
       git 'https://github.com/andrleite/k8s-godemo.git'
       container('docker') {
-        sh "mkdir /home/jenkins/.docker && cp /tmp/nexus-config/.dockercfg /home/jenkins/.docker/config.json"
-        sh "cat /home/jenkins/.docker/config.json"
         sh "docker build -t containers.lab.cloud104.io/godemo:$VERSION ."
         sh "docker push containers.lab.cloud104.io/godemo:$VERSION"
       }
